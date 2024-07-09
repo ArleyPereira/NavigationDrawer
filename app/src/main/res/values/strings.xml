@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">NavigationDrawer</string>
+
+    <!--    NavigationDrawerItems-->
+    <string name="label_home_navigation_drawer_item">Inicio</string>
+    <string name="label_search_navigation_drawer_item">Buscar</string>
+    <string name="label_notifications_navigation_drawer_item">Notificações</string>
+    <string name="label_orders_navigation_drawer_item">Minhas compras</string>
+    <string name="label_favorite_navigation_drawer_item">Favoritos</string>
+
+
+</resources>
