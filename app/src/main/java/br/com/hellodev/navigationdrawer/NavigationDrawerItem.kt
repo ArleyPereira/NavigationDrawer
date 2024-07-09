@@ -2,7 +2,6 @@ package br.com.hellodev.navigationdrawer
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import br.hellodev.material3.R
 
 sealed class NavigationDrawerItem(
     val type: NavigationDrawerType,
@@ -12,51 +11,61 @@ sealed class NavigationDrawerItem(
     @DrawableRes val unselectedIcon: Int
 ) {
 
-    data object Videos : NavigationDrawerItem(
-        type = NavigationDrawerType.VIDEO,
+    data object Home : NavigationDrawerItem(
+        type = NavigationDrawerType.HOME,
         badge = 0,
-        title = R.string.tab_item_videos,
-        selectedIcon = R.drawable.ic_video_fill,
-        unselectedIcon = R.drawable.ic_video_line,
+        title = R.string.label_home_navigation_drawer_item,
+        selectedIcon = R.drawable.ic_home_fill,
+        unselectedIcon = R.drawable.ic_home_line,
     )
 
-    data object Photos : NavigationDrawerItem(
-        type = NavigationDrawerType.PHOTO,
+    data object Search : NavigationDrawerItem(
+        type = NavigationDrawerType.SEARCH,
+        badge = 0,
+        title = R.string.label_search_navigation_drawer_item,
+        selectedIcon = R.drawable.ic_search_fill,
+        unselectedIcon = R.drawable.ic_search_line,
+    )
+
+    data object Notification : NavigationDrawerItem(
+        type = NavigationDrawerType.NOTIFICATION,
         badge = 5,
-        title = R.string.tab_item_photos,
-        selectedIcon = R.drawable.ic_photo_fill,
-        unselectedIcon = R.drawable.ic_photo_line,
+        title = R.string.label_notifications_navigation_drawer_item,
+        selectedIcon = R.drawable.ic_notification_fill,
+        unselectedIcon = R.drawable.ic_notification_line,
     )
 
-    data object Audios : NavigationDrawerItem(
-        type = NavigationDrawerType.AUDIO,
+    data object Order : NavigationDrawerItem(
+        type = NavigationDrawerType.ORDER,
         badge = 0,
-        title = R.string.tab_item_audios,
-        selectedIcon = R.drawable.ic_audio_fill,
-        unselectedIcon = R.drawable.ic_audio_line,
+        title = R.string.label_orders_navigation_drawer_item,
+        selectedIcon = R.drawable.ic_shopping_fill,
+        unselectedIcon = R.drawable.ic_shopping_line,
     )
 
-    data object Info : NavigationDrawerItem(
-        type = NavigationDrawerType.INFO,
+    data object Favorite : NavigationDrawerItem(
+        type = NavigationDrawerType.FAVORITE,
         badge = 0,
-        title = R.string.tab_item_about,
-        selectedIcon = R.drawable.ic_info_fill,
-        unselectedIcon = R.drawable.ic_info_line,
+        title = R.string.label_favorite_navigation_drawer_item,
+        selectedIcon = R.drawable.ic_favorite_fill,
+        unselectedIcon = R.drawable.ic_favorite_line,
     )
 
     enum class NavigationDrawerType {
-        VIDEO,
-        PHOTO,
-        AUDIO,
-        INFO,
+        HOME,
+        SEARCH,
+        NOTIFICATION,
+        ORDER,
+        FAVORITE
     }
 
     companion object {
         val items = listOf(
-            Videos,
-            Photos,
-            Audios,
-            Info
+            Home,
+            Search,
+            Notification,
+            Order,
+            Favorite
         )
     }
 
