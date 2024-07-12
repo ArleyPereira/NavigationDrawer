@@ -18,42 +18,55 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import br.com.hellodev.navigationdrawer.ui.theme.NavigationDrawerTheme
 import kotlinx.coroutines.launch
 
-class MainActivity : ComponentActivity() {
+class MainYoutubeActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            NavigationDrawerTheme {
-                val drawerState = rememberDrawerState(DrawerValue.Closed)
-                var drawerIndex by remember { mutableIntStateOf(0) }
-                val scope = rememberCoroutineScope()
+            val drawerState = rememberDrawerState(DrawerValue.Closed)
+            var drawerIndex by remember { mutableIntStateOf(0) }
+            val scope = rememberCoroutineScope()
+            var isDarkTheme by remember { mutableStateOf(false) }
 
-                NavigationDrawerYT(
+            NavigationDrawerTheme(isDarkTheme = isDarkTheme) {
+                NavigationDrawerUI(
                     drawerState = drawerState,
                     items = NavigationDrawerItem.items,
                     drawerIndex = drawerIndex,
+                    isDarkTheme = isDarkTheme,
+                    onClink = {
+                        scope.launch {
+                            drawerIndex = it
+                            drawerState.close()
+                        }
+                    },
+                    onThemeChange = { isDarkTheme = !isDarkTheme },
                     content = {
                         Scaffold(
+                            modifier = Modifier.fillMaxSize(),
                             topBar = {
                                 TopAppBar(
                                     title = { },
                                     navigationIcon = {
                                         IconButton(
                                             onClick = {
-                                                if (drawerState.isClosed) {
-                                                    scope.launch {
+                                                scope.launch {
+                                                    if (drawerState.isClosed) {
                                                         drawerState.open()
                                                     }
                                                 }
@@ -82,12 +95,6 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         )
-                    },
-                    onClink = {
-                        scope.launch {
-                            drawerState.close()
-                            drawerIndex = it
-                        }
                     }
                 )
             }

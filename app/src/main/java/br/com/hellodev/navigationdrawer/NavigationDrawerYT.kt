@@ -3,7 +3,6 @@ package br.com.hellodev.navigationdrawer
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,23 +12,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -46,30 +44,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import br.com.hellodev.navigationdrawer.ui.theme.NavigationDrawerTheme
 import br.com.hellodev.navigationdrawer.ui.theme.PrimaryColorLight
-import br.com.hellodev.navigationdrawer.ui.theme.SecondaryColorDark
-import br.com.hellodev.navigationdrawer.ui.theme.TextColorDark
-import br.com.hellodev.navigationdrawer.ui.theme.TextColorLight
 
 @Composable
-fun NavigationDrawerUI(
+fun NavigationDrawerYT(
     modifier: Modifier = Modifier,
     drawerState: DrawerState,
     items: List<NavigationDrawerItem>,
     drawerIndex: Int,
-    isDarkTheme: Boolean,
-    onClink: (Int) -> Unit,
-    onThemeChange: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
+    onClink: (Int) -> Unit
 ) {
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet(
-                drawerContainerColor = NavigationDrawerTheme.colorScheme.primary
+                drawerContainerColor = PrimaryColorLight
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 32.dp),
+                        .padding(vertical = 32.dp, horizontal = 16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Image(
@@ -79,19 +72,20 @@ fun NavigationDrawerUI(
                             .clip(CircleShape)
                             .size(60.dp)
                             .border(1.dp, Color.White, CircleShape),
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.Crop
                     )
+
+                    Spacer(modifier = Modifier.width(16.dp))
 
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(1f)
-                            .padding(horizontal = 16.dp)
                     ) {
                         Text(
                             text = "Arley Santana",
                             style = TextStyle(
-                                color = NavigationDrawerTheme.colorScheme.text,
+                                color = Color.Black,
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight(500)
                             )
@@ -100,47 +94,29 @@ fun NavigationDrawerUI(
                         Spacer(modifier = Modifier.height(4.dp))
 
                         Text(
-                            text = "ver perfil",
+                            text = "Ver perfil",
                             style = TextStyle(
-                                color = NavigationDrawerTheme.colorScheme.text,
+                                color = Color.Black,
                                 fontWeight = FontWeight(500)
                             )
                         )
                     }
                 }
+
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(NavigationDrawerTheme.colorScheme.background)
+                        .background(Color.White)
                 ) {
-                    HorizontalDivider(
-                        color = if (isDarkTheme) {
-                            NavigationDrawerTheme.colorScheme.onPrimary
-                        } else {
-                            Color.Transparent
-                        }
-                    )
-
                     Spacer(modifier = Modifier.height(16.dp))
 
                     items.forEachIndexed { index, drawerItem ->
                         NavigationDrawerItem(
                             label = {
-                                Text(
-                                    text = stringResource(id = drawerItem.title),
-                                    style = TextStyle(
-                                        color = if (isDarkTheme) {
-                                            TextColorDark
-                                        } else {
-                                            TextColorLight
-                                        }
-                                    )
-                                )
+                                Text(text = stringResource(id = drawerItem.title))
                             },
                             selected = index == drawerIndex,
-                            onClick = {
-                                onClink(index)
-                            },
+                            onClick = { onClink(index) },
                             modifier = Modifier
                                 .padding(NavigationDrawerItemDefaults.ItemPadding),
                             icon = {
@@ -150,12 +126,7 @@ fun NavigationDrawerUI(
                                     } else {
                                         painterResource(id = drawerItem.unselectedIcon)
                                     },
-                                    contentDescription = null,
-                                    tint = if (isDarkTheme) {
-                                        TextColorDark
-                                    } else {
-                                        TextColorLight
-                                    }
+                                    contentDescription = null
                                 )
                             },
                             badge = {
@@ -174,36 +145,13 @@ fun NavigationDrawerUI(
                                             )
                                         )
                                     }
-
                                 }
                             },
                             shape = RoundedCornerShape(8.dp),
                             colors = NavigationDrawerItemDefaults.colors(
-                                selectedContainerColor = NavigationDrawerTheme.colorScheme.onPrimary,
+                                selectedContainerColor = PrimaryColorLight,
                                 unselectedContainerColor = Color.Transparent
-                            ),
-                        )
-                    }
-
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 32.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = "Dark mode",
-                            modifier = Modifier
-                                .weight(1f),
-                            style = TextStyle(
-                                color = NavigationDrawerTheme.colorScheme.text
                             )
-                        )
-
-                        Switch(
-                            checked = isDarkTheme,
-                            onCheckedChange = { onThemeChange() },
-                            colors = SwitchDefaults.colors(),
                         )
                     }
                 }
@@ -215,21 +163,21 @@ fun NavigationDrawerUI(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
-private fun NavigationDrawerUIPreview() {
-    val isDarkTheme by remember { mutableStateOf(false) }
-
-    NavigationDrawerTheme(isDarkTheme = isDarkTheme) {
+private fun NavigationDrawerYTPreview() {
+    NavigationDrawerTheme {
         val drawerState = rememberDrawerState(DrawerValue.Open)
-        NavigationDrawerUI(
+        var drawerIndex by remember { mutableIntStateOf(0) }
+
+        NavigationDrawerYT(
             drawerState = drawerState,
             items = NavigationDrawerItem.items,
-            drawerIndex = 0,
-            isDarkTheme = isDarkTheme,
-            onClink = {},
-            onThemeChange = {},
-            content = {}
+            drawerIndex = drawerIndex,
+            content = {},
+            onClink = {
+                drawerIndex = it
+            }
         )
     }
 }
